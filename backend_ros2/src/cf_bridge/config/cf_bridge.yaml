@@ -1,0 +1,18 @@
+with_orient: false
+invert_y: false
+start_hl: true
+hl_only: false
+speed: 0.30
+diag_period_sec: 0.5
+cache_dir: "./.cf_cache"
+
+drones:
+  - id: "cf1"
+    uri: "radio://0/80/2M/E7E7E7E701"
+    ns: "/cf1"
+    mocap_topic: "/mocap/cf1/pose"
+    
+  - id: "cf3"
+    uri: "radio://0/80/2M/E7E7E7E703"
+    ns: "/cf3"
+    mocap_topic: "/mocap/cf3/pose"

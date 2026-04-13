@@ -1,0 +1,25 @@
+#HOW TO DISCOVER TOPIC NAMES AND TYPES:
+# 1. Run your motion capture system and make sure it is publishing data to ROS2
+  #ros2 run vrpn_mocap client_node --ros-args -p server:=<IP> -p port:=3883
+# 2. Use the command :
+  #ros2 topic list | grep -i vrpn
+  #ros2 topic type <topic>
+
+frame_id: "map"
+topic_prefix: "/mocap"
+axis_mode: identity
+# axis_mode: optitrack_to_enu   # se/solo se validato con Motive
+
+# change topic names and types as needed, e.g. if you have a different VRPN setup or use a different motion capture system
+
+sources:
+  cf1:
+    topic: "/cf1/pose"
+    type: "pose_stamped"
+    frame_id: "map"
+  cf3:
+    topic: "/cf3/pose"
+    type: "pose_stamped"
+    frame_id: "map"
+
+
