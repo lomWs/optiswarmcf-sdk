@@ -267,8 +267,10 @@ start_backend() {
   : > "$cf_log"
 
   nohup bash -lc "
-    safe_source /opt/ros/$ROS_DISTRO/setup.bash
-    safe_source '$WS/install/setup.bash'
+    set +u
+    source /opt/ros/$ROS_DISTRO/setup.bash
+    source '$WS/install/setup.bash'
+    set -u
     exec ros2 run vrpn_mocap client_node --ros-args -p server:=$VRPN_SERVER -p port:=$VRPN_PORT
   " >"$vrpn_log" 2>&1 &
   local vrpn_pid=$!
@@ -276,8 +278,10 @@ start_backend() {
   sleep 2
 
   nohup bash -lc "
-    safe_source /opt/ros/$ROS_DISTRO/setup.bash
-    safe_source '$WS/install/setup.bash'
+    set +u
+    source /opt/ros/$ROS_DISTRO/setup.bash
+    source '$WS/install/setup.bash'
+    set -u
     exec ros2 launch mocap_bridge_ros2 mocap_bridge.launch.py config_path:='$MOCAP_YAML'
   " >"$mocap_log" 2>&1 &
   local mocap_pid=$!
@@ -285,8 +289,10 @@ start_backend() {
   sleep 2
 
   nohup bash -lc "
-    safe_source /opt/ros/$ROS_DISTRO/setup.bash
-    safe_source '$WS/install/setup.bash'
+    set +u
+    source /opt/ros/$ROS_DISTRO/setup.bash
+    source '$WS/install/setup.bash'
+    set -u
     exec ros2 launch cf_bridge cf_bridge.launch.py config_path:='$CF_YAML'
   " >"$cf_log" 2>&1 &
   local cf_pid=$!
