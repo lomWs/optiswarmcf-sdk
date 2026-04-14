@@ -69,6 +69,7 @@ optiswarmcf/
 │   └── src/
 │       ├── mocap_bridge_ros2/
 │       └── cf_bridge/
+├── scripts/           #Scripts .sh
 ├── sdk/               # Python SDK (pip package)
 │   └── src/optiswarmcf/
 ├── examples/          # Example controllers
