@@ -288,5 +288,6 @@ Stop in order:
 ## 📌 Notes
 
 * Backend must be running before SDK
+* EFK_RESET -> have bug doesn't work
 * SDK does NOT start ROS nodes
 * Designed for real-time control experiments

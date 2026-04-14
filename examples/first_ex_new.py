@@ -5,12 +5,15 @@ from optiswarmcf.optitrack import OptiTrack, OptiTrackConfig
 from optiswarmcf.crazyflie import AgentConfig, CrazyflieAgent
 
 
+DRONE_ID = "cf3"
+MOCAP_TOPIC = f"/mocap/{DRONE_ID}/pose"
+
+
 def main() -> None:
     context = RosContext()
 
     # --- CONFIGURATION ---
-    agent_cfg = AgentConfig.from_drone_id("cf3")
-    mocap_topic = "/mocap/cf3/pose"
+    agent_cfg = AgentConfig.from_drone_id(DRONE_ID)
 
     # --- START CONTEXT ---
     context.start()
@@ -22,52 +25,58 @@ def main() -> None:
         context.node,
         OptiTrackConfig(
             pose_topics={
-                "cf3": mocap_topic,
+                DRONE_ID: MOCAP_TOPIC,
             }
         ),
     )
 
     try:
-        print("Waiting for cf3 pose...")
-        ok = opti.wait_pose("cf3", tmax=10.0)
+        print(f"Waiting for {DRONE_ID} pose...")
+        ok = opti.wait_pose(DRONE_ID, tmax=10.0)
 
         if not ok:
-            raise RuntimeError("cf3 pose not received within timeout")
+            raise RuntimeError(f"{DRONE_ID} pose not received within timeout")
 
-        pose = opti.get_pose("cf3")
+        pose = opti.get_pose(DRONE_ID)
         if pose is None:
-            raise RuntimeError("cf3 pose is None after successful wait_pose")
+            raise RuntimeError(f"{DRONE_ID} pose is None after successful wait_pose")
 
-        print("cf3 pose received:", pose)
+        print(f"{DRONE_ID} pose received: {pose}")
         print("Current snapshot:", opti.snapshot())
-        print("cf3 agent created successfully.")
+        print(f"{DRONE_ID} agent created successfully.")
+
+        # Give the estimator some time to stabilize
+        print("Waiting a bit for pose stabilization...")
+        time.sleep(2.0)
+
+        
 
         # ---------------------------------------------------------
         # TAKEOFF
         # ---------------------------------------------------------
         print("Sending takeoff...")
-        agent.takeoff(timeout_sec=2.0)
+        agent.takeoff(timeout_sec=3.0)
         time.sleep(3.0)
 
         # ---------------------------------------------------------
         # GO TO ABS:
         # keep current x,y and increase only z
         # ---------------------------------------------------------
-        current_pose = opti.get_pose("cf1")
+        current_pose = opti.get_pose(DRONE_ID)
         if current_pose is None:
-            raise RuntimeError("cf1 pose disappeared before go_to_abs")
+            raise RuntimeError(f"{DRONE_ID} pose disappeared before go_to_abs")
 
         target_x = current_pose.x
         target_y = current_pose.y
-        target_z = current_pose.z + 0.5
+        target_z = min(current_pose.z + 0.10, 0.50)
 
         print(
-            f"Sending go_to_abs to x={target_x:.3f}, "
-            f"y={target_y:.3f}, z={target_z:.3f}"
+            f"Sending go_to_abs to "
+            f"x={target_x:.3f}, y={target_y:.3f}, z={target_z:.3f}"
         )
-        #agent.go_to_abs(target_x, target_y, target_z)
+        agent.go_to_abs(target_x, target_y, target_z)
 
-        #time.sleep(3.0)
+        time.sleep(3.0)
 
         # ---------------------------------------------------------
         # LAND
