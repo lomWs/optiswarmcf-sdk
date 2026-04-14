@@ -1,5 +1,5 @@
 from .context import RosContext, ContextConfig
-from .models import Pose3D, Observation, Command, VelocityCmd
+from .models import Pose3D, Observation, VelocityCmd
 from .optitrack import OptiTrack, OptiTrackConfig
 from .crazyflie import CrazyflieAgent, AgentConfig
 from .swarm import Swarm, SwarmConfig
