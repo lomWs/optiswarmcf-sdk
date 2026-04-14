@@ -59,7 +59,7 @@ def main() -> None:
 
         target_x = current_pose.x
         target_y = current_pose.y
-        target_z = current_pose.z + 0.10
+        target_z = current_pose.z + 0.2
 
         print(
             f"Sending go_to_abs to x={target_x:.3f}, "
