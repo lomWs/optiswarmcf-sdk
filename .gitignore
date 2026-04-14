@@ -1,21 +1,64 @@
+# -----------------
+# Python
+# -----------------
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-.pyc.
 *.py,cover
+
 .venv/
-.vscode/
 venv/
 env/
+
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# -----------------
+# Build / packaging
+# -----------------
 build/
 dist/
-install/
-log/
 *.egg-info/
 .eggs/
+
+# -----------------
+# ROS2 / colcon
+# -----------------
+build/
+install/
+log/
 .colcon/
-ros2_ws/
-upgrade.txt
+
+# -----------------
+# IDE
+# -----------------
+.vscode/
+.idea/
+*.code-workspace
+
+# -----------------
+# OS
+# -----------------
+.DS_Store
+Thumbs.db
+
+# -----------------
+# Runtime / cache
+# -----------------
+.cf_cache/
+
+# -----------------
+# Logs
+# -----------------
+*.log
+*.log.*
+
+# -----------------
+# Other
+# -----------------
 run_backend_terminals.sh
+upgrade.txt
 how_to.txt
