@@ -1,0 +1,66 @@
+# SDK SETUP AND RUN (SIMPLE GUIDE)
+
+## FIRST TIME SETUP (only once)
+
+1. Go to SDK folder:
+   cd ~/Scrivania/backendProvas/sdk
+
+2. Create virtual environment:
+   python3 -m venv .venv
+
+3. Activate it:
+   source .venv/bin/activate
+
+4. Upgrade pip:
+   pip install -U pip
+
+5. Install SDK:
+   pip install -e .
+
+## EVERY TIME YOU WORK
+
+1. Open a new terminal
+
+2. Source ROS2:
+   source /opt/ros/$ROS_DISTRO/setup.bash
+
+3. Source your ROS2 workspace:
+   source ~/Scrivania/backendProvas/backend_ros2/install/setup.bash
+
+4. Go to SDK folder:
+   cd ~/Scrivania/backendProvas/sdk
+
+5. Activate virtual environment:
+   source .venv/bin/activate
+
+6. Run your controller:
+   python examples/minimal_controller.py
+
+## NOTES
+
+* Backend (VRPN, mocap_bridge, cf_bridge) must already be running
+* Do NOT skip ROS2 source commands
+* Do NOT run only the venv without ROS
+* If something breaks, you can delete .venv and redo setup
+
+## RESET ENVIRONMENT (if needed)
+
+cd ~/Scrivania/backendProvas/sdk
+rm -rf .venv
+
+Then repeat FIRST TIME SETUP
+
+
+########## USAGE RECAP (after setup venv for sdk, you already have the controller script)##########
+ 1. Run the backend_ros2:
+    for now -> ./run_backend_terminals.sh
+ 2. Run the script for the controller alg.:
+    source /opt/ros/$ROS_DISTRO/setup.bash
+    source ~/Scrivania/backendProvas/backend_ros2/install/setup.bash
+    cd ~/Scrivania/backendProvas/sdk
+    source .venv/bin/activate
+    python examples/minimal_controller.py
+
+########## USAGE RECAP ##########
+
+

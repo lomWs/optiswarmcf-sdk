@@ -1,0 +1,194 @@
+# SCRIPTS USAGE GUIDE
+
+## Overview
+
+The `scripts/` directory contains utility scripts to manage the full workflow of the project, including:
+
+* Backend (ROS2)
+* SDK setup (Python)
+* Experiment execution
+* Debugging and logs
+
+These scripts are designed to simplify common operations and reduce user errors.
+
+---
+
+1. setup_sdk.sh
+
+---
+
+Purpose:
+Initialize the Python SDK environment.
+
+Usage:
+./scripts/setup_sdk.sh
+
+What it does:
+
+* Creates a virtual environment in `sdk/.venv` (if it does not exist)
+* Activates the environment
+* Installs the SDK in editable mode
+
+When to use:
+
+* First time setup after cloning the repository
+* After deleting the virtual environment
+
+Notes:
+
+* This does NOT start the backend
+* This does NOT build ROS2
+
+---
+
+2. build_backend.sh
+
+---
+
+Purpose:
+Build the ROS2 backend workspace.
+
+Usage:
+./scripts/build_backend.sh [optional_workspace_path]
+
+What it does:
+
+* Sources ROS2 environment
+* Installs dependencies using `rosdep`
+* Builds the workspace using `colcon`
+
+When to use:
+
+* After cloning the project
+* After modifying backend code
+* If ROS packages are not found
+
+Notes:
+
+* This does NOT run the backend
+* Workspace must contain a `src/` folder
+
+---
+
+3. run_experiment.sh
+
+---
+
+Purpose:
+Run a complete experiment (backend + SDK algorithm).
+
+Usage:
+./scripts/run_experiment.sh <algorithm.py> [optional args]
+
+Example:
+./scripts/run_experiment.sh examples/minimal_controller.py
+
+What it does:
+
+* Checks that SDK and backend are ready
+* Starts backend if not running
+* Restarts backend if configuration changed
+* Runs the algorithm inside the virtual environment
+
+Backend components:
+
+* VRPN client (OptiTrack)
+* mocap_bridge_ros2
+* cf_bridge
+
+Logs:
+Stored in:
+.runtime/logs/
+
+Notes:
+
+* Backend runs in background (no GUI terminals)
+* Minimal health check is based on the first drone
+* Use `stop_backend.sh` to stop backend
+
+---
+
+4. stop_backend.sh
+
+---
+
+Purpose:
+Stop backend processes.
+
+Usage:
+./scripts/stop_backend.sh
+
+What it does:
+
+* Stops all backend processes started by `run_experiment.sh`
+* Cleans internal PID tracking
+
+When to use:
+
+* To manually stop the backend
+* Before changing configuration
+
+Notes:
+
+* Does NOT delete logs
+
+---
+
+5. show_logs.sh
+
+---
+
+Purpose:
+View backend logs in real time.
+
+Usage:
+./scripts/show_logs.sh
+
+What it does:
+
+* Streams all log files using `tail -f`
+
+Logs include:
+
+* vrpn.log
+* mocap.log
+* cf_bridge.log
+
+When to use:
+
+* Debugging issues
+* Monitoring runtime behavior
+
+Stop with:
+Ctrl + C
+
+---
+
+## Typical Workflow
+
+1. Setup SDK (once):
+   ./scripts/setup_sdk.sh
+
+2. Build backend (once or after changes):
+   ./scripts/build_backend.sh
+
+3. Run experiment:
+   ./scripts/run_experiment.sh examples/minimal_controller.py
+
+4. Monitor logs (optional):
+   ./scripts/show_logs.sh
+
+5. Stop backend (when needed):
+   ./scripts/stop_backend.sh
+
+---
+
+## Important Notes
+
+* Always ensure ROS2 is installed and configured
+* Backend must be built before running experiments
+* SDK virtual environment must exist (`sdk/.venv`)
+* Logs are stored in `.runtime/logs/`
+
+---
+
