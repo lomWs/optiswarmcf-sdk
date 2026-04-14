@@ -1,10 +1,10 @@
 
 import time
 
-from sdk.src.optiswarmcf.optitrack import OptiTrack, OptiTrackConfig
-from sdk.src.optiswarmcf.context import RosContext
-from sdk.src.optiswarmcf.crazyflie import AgentConfig
-from sdk.src.optiswarmcf.swarm import Swarm, SwarmConfig
+from optiswarmcf.optitrack import OptiTrack, OptiTrackConfig
+from optiswarmcf.context import RosContext
+from optiswarmcf.crazyflie import AgentConfig
+from optiswarmcf.swarm import Swarm, SwarmConfig
 
 
 context = RosContext()

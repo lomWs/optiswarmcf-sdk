@@ -1,10 +1,10 @@
 #HOW RUN : -> Scrivania/backendProvas/sdk $PYTHONPATH=src:$PYTHONPATH python3 src/cfswarm_sdk/examples/first_ex_cf.py
 
 
-from sdk.src.optiswarmcf.optitrack import OptiTrack, OptiTrackConfig
-from sdk.src.optiswarmcf.context import RosContext
-from sdk.src.optiswarmcf.crazyflie import CrazyflieAgent, AgentConfig
-from sdk.src.optiswarmcf.swarm import Swarm, SwarmConfig
+from optiswarmcf.optitrack import OptiTrack, OptiTrackConfig
+from optiswarmcf.context import RosContext
+from optiswarmcf.crazyflie import CrazyflieAgent, AgentConfig
+from optiswarmcf.swarm import Swarm, SwarmConfig
 import time
 
 
