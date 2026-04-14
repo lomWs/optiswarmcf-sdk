@@ -13,8 +13,8 @@ axis_mode: identity
 # change topic names and types as needed, e.g. if you have a different VRPN setup or use a different motion capture system
 
 sources:
-  cf1:
-    topic: "/cf1/pose"
+  cf3:
+    topic: "/cf3/pose"
     type: "pose_stamped"
     frame_id: "map"
 
