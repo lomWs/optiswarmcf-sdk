@@ -7,7 +7,9 @@ name = "optiswarmcf"
 version = "0.1.0"
 description = "Minimal SDK to control Crazyflie swarms via ROS2 backend (I/O only)."
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [    
+    "pyyaml",
+    "setuptools",]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
