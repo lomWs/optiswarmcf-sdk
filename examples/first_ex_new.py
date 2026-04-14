@@ -9,8 +9,8 @@ def main() -> None:
     context = RosContext()
 
     # --- CONFIGURATION ---
-    agent_cfg = AgentConfig.from_drone_id("cf1")
-    mocap_topic = "/mocap/cf1/pose"
+    agent_cfg = AgentConfig.from_drone_id("cf3")
+    mocap_topic = "/mocap/cf3/pose"
 
     # --- START CONTEXT ---
     context.start()
@@ -22,31 +22,31 @@ def main() -> None:
         context.node,
         OptiTrackConfig(
             pose_topics={
-                "cf1": mocap_topic,
+                "cf3": mocap_topic,
             }
         ),
     )
 
     try:
-        print("Waiting for cf1 pose...")
-        ok = opti.wait_pose("cf1", tmax=10.0)
+        print("Waiting for cf3 pose...")
+        ok = opti.wait_pose("cf3", tmax=10.0)
 
         if not ok:
-            raise RuntimeError("cf1 pose not received within timeout")
+            raise RuntimeError("cf3 pose not received within timeout")
 
-        pose = opti.get_pose("cf1")
+        pose = opti.get_pose("cf3")
         if pose is None:
-            raise RuntimeError("cf1 pose is None after successful wait_pose")
+            raise RuntimeError("cf3 pose is None after successful wait_pose")
 
-        print("cf1 pose received:", pose)
+        print("cf3 pose received:", pose)
         print("Current snapshot:", opti.snapshot())
-        print("cf1 agent created successfully.")
+        print("cf3 agent created successfully.")
 
         # ---------------------------------------------------------
         # TAKEOFF
         # ---------------------------------------------------------
         print("Sending takeoff...")
-        agent.takeoff(timeout_sec=3.0)
+        agent.takeoff(timeout_sec=2.0)
         time.sleep(3.0)
 
         # ---------------------------------------------------------
@@ -65,9 +65,9 @@ def main() -> None:
             f"Sending go_to_abs to x={target_x:.3f}, "
             f"y={target_y:.3f}, z={target_z:.3f}"
         )
-        agent.go_to_abs(target_x, target_y, target_z)
+        #agent.go_to_abs(target_x, target_y, target_z)
 
-        time.sleep(3.0)
+        #time.sleep(3.0)
 
         # ---------------------------------------------------------
         # LAND
