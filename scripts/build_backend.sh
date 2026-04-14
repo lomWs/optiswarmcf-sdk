@@ -41,7 +41,9 @@ die() {
 [[ -d "$WS/src" ]] || die "Missing workspace src directory: $WS/src"
 
 # shellcheck disable=SC1090
-source "/opt/ros/$ROS_DISTRO/setup.bash"
+set +u
+source /opt/ros/$ROS_DISTRO/setup.bash
+set -u
 
 cd "$WS"
 
