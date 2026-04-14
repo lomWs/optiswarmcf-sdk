@@ -49,6 +49,9 @@ Thumbs.db
 # Runtime / cache
 # -----------------
 .cf_cache/
+.runtime/
+.runtime/backend_pids.env
+.runtime/backend_state.env
 
 # -----------------
 # Logs
