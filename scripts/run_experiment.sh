@@ -23,6 +23,12 @@ set -euo pipefail
 #       3883 \
 #       backend_ros2
 # ============================================================
+safe_source() {
+  set +u
+  # shellcheck disable=SC1090
+  source "$1"
+  set -u
+}
 
 ROS_DISTRO="${ROS_DISTRO:-jazzy}"
 
@@ -81,13 +87,13 @@ require_dir() {
 
 source_ros_base() {
   # shellcheck disable=SC1090
-  source "/opt/ros/$ROS_DISTRO/setup.bash"
+  safe_source "/opt/ros/$ROS_DISTRO/setup.bash"
 }
 
 source_ros_env() {
   source_ros_base
   # shellcheck disable=SC1090
-  source "$WS/install/setup.bash"
+  safe_source "$WS/install/setup.bash"
 }
 
 check_inputs() {
@@ -105,7 +111,7 @@ check_workspace_ready() {
 
 Run:
   cd $WS
-  source /opt/ros/$ROS_DISTRO/setup.bash
+  safe_source /opt/ros/$ROS_DISTRO/setup.bash
   colcon build --symlink-install"
 
   source_ros_env
@@ -114,17 +120,17 @@ Run:
 
 Run:
   cd $WS
-  source /opt/ros/$ROS_DISTRO/setup.bash
+  safe_source /opt/ros/$ROS_DISTRO/setup.bash
   colcon build --symlink-install
-  source install/setup.bash"
+  safe_source $WS/install/setup.bash"
 
   ros2 pkg list 2>/dev/null | grep -Fx "mocap_bridge_ros2" >/dev/null || die "Package 'mocap_bridge_ros2' not visible in ROS environment.
 
 Run:
   cd $WS
-  source /opt/ros/$ROS_DISTRO/setup.bash
+  safe_source /opt/ros/$ROS_DISTRO/setup.bash
   colcon build --symlink-install
-  source install/setup.bash"
+  safe_source $WS/install/setup.bash"
 }
 
 canonical_signature() {
@@ -261,8 +267,8 @@ start_backend() {
   : > "$cf_log"
 
   nohup bash -lc "
-    source /opt/ros/$ROS_DISTRO/setup.bash
-    source '$WS/install/setup.bash'
+    safe_source /opt/ros/$ROS_DISTRO/setup.bash
+    safe_source '$WS/install/setup.bash'
     exec ros2 run vrpn_mocap client_node --ros-args -p server:=$VRPN_SERVER -p port:=$VRPN_PORT
   " >"$vrpn_log" 2>&1 &
   local vrpn_pid=$!
@@ -270,8 +276,8 @@ start_backend() {
   sleep 2
 
   nohup bash -lc "
-    source /opt/ros/$ROS_DISTRO/setup.bash
-    source '$WS/install/setup.bash'
+    safe_source /opt/ros/$ROS_DISTRO/setup.bash
+    safe_source '$WS/install/setup.bash'
     exec ros2 launch mocap_bridge_ros2 mocap_bridge.launch.py config_path:='$MOCAP_YAML'
   " >"$mocap_log" 2>&1 &
   local mocap_pid=$!
@@ -279,8 +285,8 @@ start_backend() {
   sleep 2
 
   nohup bash -lc "
-    source /opt/ros/$ROS_DISTRO/setup.bash
-    source '$WS/install/setup.bash'
+    safe_source /opt/ros/$ROS_DISTRO/setup.bash
+    safe_source '$WS/install/setup.bash'
     exec ros2 launch cf_bridge cf_bridge.launch.py config_path:='$CF_YAML'
   " >"$cf_log" 2>&1 &
   local cf_pid=$!
