@@ -1,10 +1,7 @@
 
-#HOW RUN : -> Scrivania/backendProvas/sdk$ PYTHONPATH=src:$PYTHONPATH python3 src/cfswarm_sdk/examples/first_ex_opti.py
 
-
-
-from sdk.src.optiswarmcf.context import RosContext
-from sdk.src.optiswarmcf.optitrack import OptiTrack, OptiTrackConfig
+from optiswarmcf.context import RosContext
+from optiswarmcf.optitrack import OptiTrack, OptiTrackConfig
 import time
 
 context  = RosContext()
