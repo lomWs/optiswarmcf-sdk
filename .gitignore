@@ -57,8 +57,9 @@ Thumbs.db
 *.log.*
 
 # -----------------
-# Other
+# Other(local files, scripts, etc.)
 # -----------------
 run_backend_terminals.sh
 upgrade.txt
 how_to.txt
+usage_info.txt
