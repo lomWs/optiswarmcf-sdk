@@ -168,6 +168,8 @@ Ctrl + C
 
 1. Setup SDK (once):
    ./scripts/setup_sdk.sh
+   ->manual only examples or your code directory with algorithm and:
+      ...source sdk/.venv/bin/activate
 
 2. Build backend (once or after changes):
    ./scripts/build_backend.sh
