@@ -8,7 +8,7 @@
 frame_id: "map"
 topic_prefix: "/mocap"
 axis_mode: identity
-# axis_mode: optitrack_to_enu   # se/solo se validato con Motive
+# axis_mode: optitrack_to_enu   # only if validate with Motive
 
 # change topic names and types as needed, e.g. if you have a different VRPN setup or use a different motion capture system
 
@@ -17,9 +17,6 @@ sources:
     topic: "/cf1/pose"
     type: "pose_stamped"
     frame_id: "map"
-  cf3:
-    topic: "/cf3/pose"
-    type: "pose_stamped"
-    frame_id: "map"
+
 
 
