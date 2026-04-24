@@ -156,85 +156,14 @@ drones:
 
 ---
 
-## ▶️ Running the Backend
+## ▶️ Running the Framework
 
-Run each component in a separate terminal.
+The framework is designed to be executed through a single launcher script that automatically starts the backend and runs the user controller.
 
-### 1. VRPN Client
-
-```bash
-source /opt/ros/$ROS_DISTRO/setup.bash
-ros2 run vrpn_mocap client_node --ros-args -p server:=192.168.1.10 -p port:=3883
-```
-
----
-
-### 2. Mocap Bridge
+### 🚀 Run an Experiment (Recommended)
 
 ```bash
-cd backend_ros2
-source /opt/ros/$ROS_DISTRO/setup.bash
-source install/setup.bash
-
-ros2 launch mocap_bridge_ros2 mocap_bridge.launch.py config_path:=<ABSOLUTE_PATH>/mocap.yaml
-```
-
----
-
-### 3. Crazyflie Bridge
-
-```bash
-cd backend_ros2
-source /opt/ros/$ROS_DISTRO/setup.bash
-source install/setup.bash
-
-ros2 launch cf_bridge cf_bridge.launch.py config_path:=<ABSOLUTE_PATH>/cf_bridge.yaml
-```
-
----
-
-## 🧪 Backend Testing (without SDK)
-
-Publish commands manually:
-
-```bash
-ros2 topic pub --once /cf1/cmd_pos geometry_msgs/msg/PoseStamped \
-"{header: {frame_id: 'map'}, pose: {position: {x: 0, y: 0, z: 0.5}, orientation: {w: 1.0}}}"
-```
-
-Call services:
-
-```bash
-ros2 service call /cf1/takeoff std_srvs/srv/Trigger "{}"
-ros2 service call /cf1/land std_srvs/srv/Trigger "{}"
-```
-
----
-
-## 🧩 SDK Usage
-
-Install SDK:
-
-```bash
-cd sdk
-python -m pip install -e .
-```
-
-Run example:
-
-```bash
-python examples/minimal_controller.py
-```
-
----
-
-## 🔁 Typical Workflow
-
-1. Start backend (VRPN → mocap → cf_bridge)
-2. Run SDK controller
-3. Iterate on control algorithms only (no backend restart needed)
-
----
+./scripts/run_experiment.sh examples/minimal_controller.py
 
 ## ⚠️ Troubleshooting
 
