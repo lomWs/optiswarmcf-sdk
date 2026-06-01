@@ -17,7 +17,7 @@ def generate_launch_description():
             Node(
                 package="cf_bridge",
                 executable="cf_bridge_node",
-                name="cf_bridge",
+                name="cf_bridge_node",
                 output="screen",
                 parameters=[{"config_path": config_path}],
             ),

@@ -33,7 +33,7 @@ safe_source() {
 ROS_DISTRO="${ROS_DISTRO:-jazzy}"
 
 if [[ $# -lt 1 ]]; then
-  echo "Usage: $0 <algorithm.py> [mocap.yaml] [cf_bridge.yaml] [vrpn_server] [vrpn_port] [workspace]" >&2
+  echo "Usage: $0 <algorithm.py> [opti_config.yaml] [cf_bridge.yaml] [vrpn_server] [vrpn_port] [workspace]" >&2
   exit 1
 fi
 
@@ -47,7 +47,7 @@ REPO_ROOT="$(realpath "$SCRIPT_DIR/..")"
 # Defaults
 # ------------------------------------------------------------
 DEFAULT_WS="$REPO_ROOT/backend_ros2"
-DEFAULT_MOCAP_YAML="$DEFAULT_WS/src/mocap_bridge_ros2/config/mocap.yaml"
+DEFAULT_OPTI_YAML="$DEFAULT_WS/src/opti_bridge/config/opti_config.yaml"
 DEFAULT_CF_YAML="$DEFAULT_WS/src/cf_bridge/config/cf_bridge.yaml"
 DEFAULT_VRPN_SERVER="192.168.1.100"
 DEFAULT_VRPN_PORT="3883"
@@ -56,7 +56,7 @@ DEFAULT_VRPN_PORT="3883"
 # Inputs
 # ------------------------------------------------------------
 ALGO="$(realpath "$1")"
-MOCAP_YAML="$(realpath "${2:-$DEFAULT_MOCAP_YAML}")"
+OPTI_YAML="$(realpath "${2:-$DEFAULT_OPTI_YAML}")"
 CF_YAML="$(realpath "${3:-$DEFAULT_CF_YAML}")"
 VRPN_SERVER="${4:-$DEFAULT_VRPN_SERVER}"
 VRPN_PORT="${5:-$DEFAULT_VRPN_PORT}"
@@ -98,7 +98,7 @@ source_ros_env() {
 
 check_inputs() {
   require_file "$ALGO"
-  require_file "$MOCAP_YAML"
+  require_file "$OPTI_YAML"
   require_file "$CF_YAML"
   require_dir "$WS"
   require_dir "$SDK_DIR"
@@ -124,7 +124,7 @@ Run:
   colcon build --symlink-install
   safe_source $WS/install/setup.bash"
 
-  ros2 pkg list 2>/dev/null | grep -Fx "mocap_bridge_ros2" >/dev/null || die "Package 'mocap_bridge_ros2' not visible in ROS environment.
+  ros2 pkg list 2>/dev/null | grep -Fx "opti_bridge" >/dev/null || die "Package 'opti_bridge' not visible in ROS environment.
 
 Run:
   cd $WS
@@ -135,7 +135,7 @@ Run:
 
 canonical_signature() {
   printf '%s\n%s\n%s\n%s\n%s\n' \
-    "$WS" "$MOCAP_YAML" "$CF_YAML" "$VRPN_SERVER" "$VRPN_PORT" \
+    "$WS" "$OPTI_YAML" "$CF_YAML" "$VRPN_SERVER" "$VRPN_PORT" \
     | sha256sum | awk '{print $1}'
 }
 
@@ -218,7 +218,7 @@ write_state_files() {
   cat > "$STATE_FILE" <<EOF
 SIGNATURE="$(canonical_signature)"
 WS="$WS"
-MOCAP_YAML="$MOCAP_YAML"
+OPTI_YAML="$OPTI_YAML"
 CF_YAML="$CF_YAML"
 VRPN_SERVER="$VRPN_SERVER"
 VRPN_PORT="$VRPN_PORT"
@@ -282,7 +282,7 @@ start_backend() {
     source /opt/ros/$ROS_DISTRO/setup.bash
     source '$WS/install/setup.bash'
     set -u
-    exec ros2 launch mocap_bridge_ros2 mocap_bridge.launch.py config_path:='$MOCAP_YAML'
+    exec ros2 launch opti_bridge opti_bridge.launch.py config_path:='$OPTI_YAML'
   " >"$mocap_log" 2>&1 &
   local mocap_pid=$!
 
@@ -332,7 +332,7 @@ main() {
   echo "Repository:  $REPO_ROOT"
   echo "Algorithm:   $ALGO"
   echo "Workspace:   $WS"
-  echo "Mocap YAML:  $MOCAP_YAML"
+  echo "Opti YAML:   $OPTI_YAML"
   echo "CF YAML:     $CF_YAML"
   echo "VRPN:        $VRPN_SERVER:$VRPN_PORT"
   echo "Probe topic: $FIRST_MOCAP_TOPIC"

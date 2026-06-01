@@ -1,14 +1,33 @@
 with_orient: false
-invert_y: false
 start_hl: true
-hl_only: false
-speed: 0.30
-diag_period_sec: 0.5
+hl_only: true # not working yet
+
+
+estimator: 2
+controller: 2
+en_high_level: true
+
+speed: 0.30                  # Nominal motion speed used by the backend for go_to timing [m/s]
+min_abs_duration: 1.0        # Do not send absolute go_to commands shorter than this [s]
+min_rel_duration: 0.5        # Do not send relative go_to commands shorter than this [s]
+abs_duration_margin: 0.5     # Extra time added to absolute go_to commands for smoother motion [s]
+rel_duration_margin: 0.3     # Extra time added to relative go_to commands for smoother motion [s]
+fallback_abs_duration: 1.5   # Used for absolute go_to if no current pose is available [s]
+
+diag_period_sec: 0.5         # How often diagnostics are published [s]
+pose_stale_after_sec: 0.5    # Pose is considered outdated after this time [s]
+extpos_max_rate_hz: 50.0     # Maximum allowed mocap forwarding rate to Crazyflie [Hz]
+max_pose_jump_m: 0.25        # Reject sudden mocap jumps larger than this distance [m]
+min_valid_z_m: -0.02         # Reject mocap poses below this z threshold [m]
+
 cache_dir: "./.cf_cache"
 
+
 drones:
-  - id: "cf3"
-    uri: "radio://0/80/2M/E7E7E7E703"
-    ns: "/cf3"
-    mocap_topic: "/mocap/cf3/pose"
-    
+
+
+  - id: "cf2"
+    uri: "radio://0/80/2M/E7E7E7E702"
+    ns: "/cf2"
+    mocap_topic: "/optitrack/cf2/pose" 
+

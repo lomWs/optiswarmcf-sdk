@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Optional
+from typing import Dict
 
 
 @dataclass(frozen=True)
@@ -22,12 +22,7 @@ class Observation:
     stamp_sec: float
 
 
-@dataclass(frozen=True)
-class VelocityCmd:
-    vx: float
-    vy: float
-    vz: float
-    yaw_rate: float = 0.0
+
 
 
 '''

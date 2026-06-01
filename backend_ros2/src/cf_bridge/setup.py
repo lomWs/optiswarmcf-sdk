@@ -17,7 +17,7 @@ setup(
         "PyYAML",
         "cflib",
     ],
-    zip_safe=True,
+    zip_safe=False,
     maintainer="lab",
     maintainer_email="email@example.com",
     description="ROS 2 bridge between canonical mocap topics and Crazyflie radio control.",

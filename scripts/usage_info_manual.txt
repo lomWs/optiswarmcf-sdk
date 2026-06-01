@@ -1,66 +1,195 @@
-# SDK SETUP AND RUN (SIMPLE GUIDE)
+# SDK SETUP AND RUN GUIDE
 
 ## FIRST TIME SETUP (only once)
 
-1. Go to SDK folder:
-   cd ~/Scrivania/backendProvas/sdk
+### 1. Go to the repository root
 
-2. Create virtual environment:
-   python3 -m venv .venv
+```bash id="c1a8i8"
+cd ~/Scrivania/testSotware
+```
 
-3. Activate it:
-   source .venv/bin/activate
+---
 
-4. Upgrade pip:
-   pip install -U pip
+### 2. Setup the SDK environment
 
-5. Install SDK:
-   pip install -e .
+```bash id="l1i3rq"
+./scripts/setup_sdk.sh
+```
 
-## EVERY TIME YOU WORK
+This script automatically:
 
-1. Open a new terminal
+* Creates the virtual environment in:
 
-2. Source ROS2:
-   source /opt/ros/$ROS_DISTRO/setup.bash
+```text id="v0v49l"
+sdk/.venv
+```
 
-3. Source your ROS2 workspace:
-   source ~/Scrivania/backendProvas/backend_ros2/install/setup.bash
+* Activates the environment
+* Upgrades `pip`
+* Installs the SDK in editable mode
 
-4. Go to SDK folder:
-   cd ~/Scrivania/backendProvas/sdk
+---
 
-5. Activate virtual environment:
-   source .venv/bin/activate
+### 3. Build the ROS2 backend
 
-6. Run your controller:
-   python examples/minimal_controller.py
+```bash id="0m4lrf"
+./scripts/build_backend.sh
+```
 
-## NOTES
+This generates the ROS2 install workspace:
 
-* Backend (VRPN, mocap_bridge, cf_bridge) must already be running
-* Do NOT skip ROS2 source commands
-* Do NOT run only the venv without ROS
-* If something breaks, you can delete .venv and redo setup
+```text id="44s2q3"
+backend_ros2/install/
+```
 
-## RESET ENVIRONMENT (if needed)
+---
 
+# DAILY WORKFLOW
+
+## 1. Open a new terminal
+
+---
+
+## 2. Run an experiment
+
+```bash id="kxbv3n"
+./scripts/run_experiment.sh examples/minimal_controller.py
+```
+
+The script automatically:
+
+* Sources ROS2
+* Sources the backend workspace
+* Activates the SDK virtual environment
+* Starts backend components if needed
+* Runs the controller
+
+---
+
+# OPTIONAL COMMANDS
+
+## Monitor backend logs
+
+```bash id="17x06z"
+./scripts/show_logs.sh
+```
+
+Stop monitoring with:
+
+```text id="krsp2w"
+Ctrl + C
+```
+
+---
+
+## Stop backend processes
+
+```bash id="ggh35w"
+./scripts/stop_backend.sh
+```
+
+---
+
+# MANUAL RUN (advanced/debugging)
+
+If you want to manually run controllers without `run_experiment.sh`:
+
+## 1. Source ROS2
+
+```bash id="5mhbci"
+source /opt/ros/$ROS_DISTRO/setup.bash
+```
+
+---
+
+## 2. Source backend workspace
+
+```bash id="e0lddj"
+source ~/Scrivania/backendProvas/backend_ros2/install/setup.bash
+```
+
+---
+
+## 3. Activate SDK environment
+
+```bash id="ns2j8t"
+cd ~/Scrivania/backendProvas/sdk
+source .venv/bin/activate
+```
+
+---
+
+## 4. Run controller
+
+```bash id="1yjx4w"
+python examples/minimal_controller.py
+```
+
+---
+
+# NOTES
+
+* ROS2 must already be installed
+* Backend must be built before running experiments
+* The SDK virtual environment must exist
+* ROS dependencies such as `rclpy` are managed by ROS2, not by `pip`
+* Runtime logs are stored in:
+
+```text id="8a34f2"
+.runtime/logs/
+```
+
+---
+
+# RESET SDK ENVIRONMENT (if needed)
+
+If the Python environment becomes corrupted:
+
+```bash id="y6khm6"
 cd ~/Scrivania/backendProvas/sdk
 rm -rf .venv
+```
 
-Then repeat FIRST TIME SETUP
+Then rerun:
 
+```bash id="zgh1ja"
+cd ~/Scrivania/backendProvas
+./scripts/setup_sdk.sh
+```
 
-########## USAGE RECAP (after setup venv for sdk, you already have the controller script)##########
- 1. Run the backend_ros2:
-    for now -> ./run_backend_terminals.sh
- 2. Run the script for the controller alg.:
-    source /opt/ros/$ROS_DISTRO/setup.bash
-    source ~/Scrivania/backendProvas/backend_ros2/install/setup.bash
-    cd ~/Scrivania/backendProvas/sdk
-    source .venv/bin/activate
-    python examples/minimal_controller.py
+---
 
-########## USAGE RECAP ##########
+# QUICK RECAP
 
+## Initial setup
 
+```bash id="8w3mjlwm"
+cd ~/Scrivania/backendProvas
+
+./scripts/setup_sdk.sh
+./scripts/build_backend.sh
+```
+
+---
+
+## Run experiment
+
+```bash id="3m7gm1"
+./scripts/run_experiment.sh examples/minimal_controller.py
+```
+
+---
+
+## Monitor logs
+
+```bash id="v8m6yo"
+./scripts/show_logs.sh
+```
+
+---
+
+## Stop backend
+
+```bash id="r5lcjl"
+./scripts/stop_backend.sh
+```

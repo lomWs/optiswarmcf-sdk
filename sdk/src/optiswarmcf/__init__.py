@@ -1,7 +1,7 @@
 from .context import RosContext, ContextConfig
-from .models import Pose3D, Observation, VelocityCmd
+from .models import Pose3D, Observation
 from .optitrack import OptiTrack, OptiTrackConfig
-from .crazyflie import CrazyflieAgent, AgentConfig
+from .crazyflie import CrazyflieAgent, CrazyflieAgentConfig
 from .swarm import Swarm, SwarmConfig
 
 __all__ = [
@@ -9,11 +9,10 @@ __all__ = [
     "ContextConfig",
     "Pose3D",
     "Observation",
-    "VelocityCmd",
     "OptiTrack",
     "OptiTrackConfig",
     "CrazyflieAgent",
-    "AgentConfig",
+    "CrazyflieAgentConfig",
     "Swarm",
     "SwarmConfig",
 ]

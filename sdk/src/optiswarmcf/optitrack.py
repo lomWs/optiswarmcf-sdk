@@ -8,7 +8,7 @@ from typing import Dict, Optional, Iterable
 from geometry_msgs.msg import PoseStamped
 from rclpy.node import Node
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
-
+from .context import RosContext
 from .models import Pose3D, Observation
 
 
@@ -22,8 +22,8 @@ def make_sensor_qos() -> QoSProfile:
 @dataclass(frozen=True)
 class OptiTrackConfig:
     """
-    drone_id -> topic, usually:
-      /mocap/<drone_id>/pose
+    _id -> topic, usually:
+      /optitrack/<_id>/pose
     """
     pose_topics: Dict[str, str]
 
@@ -31,8 +31,8 @@ class OptiTrackConfig:
 class OptiTrack:
     """Reads canonical mocap topics from the backend."""
 
-    def __init__(self, node: Node, cfg: OptiTrackConfig) -> None:
-        self._node = node
+    def __init__(self, ctx: RosContext, cfg: OptiTrackConfig) -> None:
+        self._node = ctx.node
         self._cfg = cfg
 
         self._lock = threading.Lock()
@@ -42,11 +42,11 @@ class OptiTrack:
         qos = make_sensor_qos()
         self._subs: Dict[str, object] = {}
 
-        for drone_id, topic in cfg.pose_topics.items():
-            self._subs[drone_id] = node.create_subscription(
+        for id, topic in cfg.pose_topics.items():
+            self._subs[id] = self._node.create_subscription(
                 PoseStamped,
                 topic,
-                lambda msg, did=drone_id: self._on_pose(did, msg),
+                lambda msg, did=id: self._on_pose(did, msg),
                 qos,
             )
 

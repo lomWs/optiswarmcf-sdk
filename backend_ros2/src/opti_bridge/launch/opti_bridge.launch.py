@@ -15,9 +15,9 @@ def generate_launch_description():
                 description="Path to mocap.yaml",
             ),
             Node(
-                package="mocap_bridge_ros2",
-                executable="mocap_bridge_node",
-                name="mocap_bridge_node",
+                package="opti_bridge",
+                executable="opti_bridge_node",
+                name="opti_bridge_node",
                 output="screen",
                 parameters=[{"config_path": config_path}],
             ),

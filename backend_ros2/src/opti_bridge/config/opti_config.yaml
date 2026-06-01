@@ -1,0 +1,16 @@
+#HOW TO DISCOVER TOPIC NAMES AND TYPES:
+# 1. Run your motion capture system and make sure it is publishing data to ROS2
+  #ros2 run vrpn_mocap client_node --ros-args -p server:=<IP> -p port:=3883
+# 2. Use the command :
+  #ros2 topic list | grep -i vrpn
+  #ros2 topic type <topic>
+
+   
+
+frame_id: world
+topic_prefix: /optitrack
+axis_mode: identity # axis_mode: swap_yz
+invert_y: false
+
+sources:
+  cf2: /cf2/pose

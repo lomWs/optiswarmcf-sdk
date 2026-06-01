@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = "mocap_bridge_ros2"
+package_name = "opti_bridge"
 
 setup(
     name=package_name,
@@ -9,14 +9,14 @@ setup(
     data_files=[
         ("share/ament_index/resource_index/packages", [f"resource/{package_name}"]),
         (f"share/{package_name}", ["package.xml"]),
-        (f"share/{package_name}/launch", ["launch/mocap_bridge.launch.py"]),
-        (f"share/{package_name}/config", ["config/mocap.yaml"]),
+        (f"share/{package_name}/launch", ["launch/opti_bridge.launch.py"]),
+        (f"share/{package_name}/config", ["config/opti_config.yaml"]),
     ],
     install_requires=["setuptools", "PyYAML"],
-    zip_safe=True,
+    zip_safe=False,
     maintainer="you",
     maintainer_email="you@todo",
     description="Minimal OptiTrack MoCap bridge (VRPN) publishing ROS2 PoseStamped topics.",
     license="MIT",
-    entry_points={"console_scripts": ["mocap_bridge_node = mocap_bridge_ros2.node:main"]},
+    entry_points={"console_scripts": ["opti_bridge_node = opti_bridge.node:main"]},
 )

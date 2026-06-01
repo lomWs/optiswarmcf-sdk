@@ -3,7 +3,7 @@
 # setup_sdk.sh
 #
 # Purpose:
-#   Initialize the Python SDK environment for the project.
+#   Python client for a ROS2 Crazyflie backend.
 #
 # What it does:
 #   - Creates a Python virtual environment in sdk/.venv (if missing)
