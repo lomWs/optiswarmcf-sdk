@@ -94,6 +94,8 @@ class GotoComebackTest:
                     y=p.y + self.G[1],
                     z=p.z + self.G[2],
                 )
+                print("[DEBUG] GOTO SEND...", drone_id)
+                    
 
             time.sleep(6.0)
 
@@ -106,7 +108,8 @@ class GotoComebackTest:
                     y=y0,
                     z=z0,
                 )
-            
+                print("[DEBUG] GOTO SEND FOR COMEBACK...", drone_id)
+                time.sleep(2.0)
             time.sleep(6.0)
 
         finally:
