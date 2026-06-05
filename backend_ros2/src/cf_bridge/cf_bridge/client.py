@@ -21,11 +21,11 @@ from .config import CfBridgeConfig, DroneConfig
 
 PARAM_SET_SLEEP_SEC = 0.1
 EKF_RESET_WAIT_SEC = 2.0
-DEFAULT_TAKEOFF_DELTA_Z_M = 0.3
-MIN_TAKEOFF_DURATION_SEC = 1.2
-TAKEOFF_DURATION_MARGIN_SEC = 0.8
+DEFAULT_TAKEOFF_DELTA_Z_M = 0.15
+MIN_TAKEOFF_DURATION_SEC = 2
+TAKEOFF_DURATION_MARGIN_SEC = 1
 LAND_HEIGHT_M = 0.0
-LAND_DURATION_SEC = 2.0
+LAND_DURATION_SEC = 3.0
 
 
 def make_sensor_qos() -> QoSProfile:
@@ -218,6 +218,41 @@ class CfClient:
         else:
             self._extpos(x, y, z, None)
 
+    
+    '''def cb_pose(self, msg: PoseStamped) -> None:
+        self.last_pose = msg
+
+        t = msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9
+        if self._pose_last_t > 0.0 and t > self._pose_last_t:
+            self._pose_rate = 1.0 / (t - self._pose_last_t)
+        self._pose_last_t = t
+
+        p = msg.pose.position
+        x = float(p.x)
+        y = float(p.y)
+        z = float(p.z)
+
+        #  NaN/infinity.
+        if not (math.isfinite(x) and math.isfinite(y) and math.isfinite(z)):
+            self.n.get_logger().warning(
+                f"[{self.dcfg.ns}] invalid mocap pose: ({x}, {y}, {z})"
+            )
+            return
+
+        self._last_extpos_t = t
+        self._last_extpos_xyz = (x, y, z)
+
+        if self.cfg.with_orient:
+            q = msg.pose.orientation
+            self._extpos(
+                x,
+                y,
+                z,
+                (float(q.x), float(q.y), float(q.z), float(q.w)),
+            )
+        else:
+            self._extpos(x, y, z, None)'''
+
     def cb_pos_abs(self, msg: PoseStamped) -> None:
         try:
             x, y, z = self._pose_xyz(msg)
@@ -250,7 +285,7 @@ class CfClient:
 
             self._last_cmd = "takeoff"
             current_z = float(self.last_pose.pose.position.z)
-            height = current_z + DEFAULT_TAKEOFF_DELTA_Z_M
+            height = DEFAULT_TAKEOFF_DELTA_Z_M
             dur = max(
                 MIN_TAKEOFF_DURATION_SEC,
                 height / max(0.10, self.cfg.speed) + TAKEOFF_DURATION_MARGIN_SEC,

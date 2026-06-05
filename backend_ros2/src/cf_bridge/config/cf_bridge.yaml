@@ -16,18 +16,18 @@ fallback_abs_duration: 1.5   # Used for absolute go_to if no current pose is ava
 
 diag_period_sec: 0.5         # How often diagnostics are published [s]
 pose_stale_after_sec: 0.5    # Pose is considered outdated after this time [s]
-extpos_max_rate_hz: 100.0     # Maximum allowed mocap forwarding rate to Crazyflie [Hz]
-max_pose_jump_m: 0.25        # Reject sudden mocap jumps larger than this distance [m]
-min_valid_z_m: -0.02         # Reject mocap poses below this z threshold [m]
+extpos_max_rate_hz: 50.0     # Maximum allowed mocap forwarding rate to Crazyflie [Hz]
+max_pose_jump_m: 0.5        # Reject sudden mocap jumps larger than this distance [m]
+min_valid_z_m: -0.19         # Reject mocap poses below this z threshold [m]
 
 cache_dir: "./.cf_cache"
 
 
 drones:
 
+  - id: "cf6"
+    uri: "radio://0/80/2M/E7E7E7E706"
+    ns: "/cf6"
+    mocap_topic: "/optitrack/cf6/pose" 
 
-  - id: "cf2"
-    uri: "radio://0/80/2M/E7E7E7E702"
-    ns: "/cf2"
-    mocap_topic: "/optitrack/cf2/pose" 
 

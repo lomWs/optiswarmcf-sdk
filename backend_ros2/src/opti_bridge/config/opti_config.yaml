@@ -13,4 +13,4 @@ axis_mode: identity # axis_mode: swap_yz
 invert_y: false
 
 sources:
-  cf2: /cf2/pose
+  cf6: /cf6/pose

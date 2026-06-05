@@ -53,7 +53,7 @@ class GotoComebackTest:
     def run(self, do_takeoff=True, do_land=True):
 
 
-        self.swarm.reset_estimator_all(timeout_sec=5.0)
+        #self.swarm.reset_estimator_all(timeout_sec=5.0)
         time.sleep(3.0)
 
         print("[DEBUG] Starting GotoComebackTest...")
@@ -66,55 +66,48 @@ class GotoComebackTest:
 
         if do_takeoff:
             self.swarm.takeoff_all(timeout_sec=2.0)
-            time.sleep(3.0)
+            time.sleep(10.0)
         
-        print("[DEBUG] TAKEOFF COMPLETE...")
+
+        print("[DEBUG] TAKEOFF COMPLETE...:")
+
+
+
+
+        initial_targets = {drone_id: poses0.get(drone_id) for drone_id in self.swarm.ids()}
         try:
-            obs = self.optitrack.snapshot()
-            poses = obs.poses
-            print(f"[DEBUG] Current poses after takeoff: {poses}")
+            obs_takeoff = self.optitrack.snapshot()
+            poses_takeoff = obs_takeoff.poses
+
+            initial_targets = {}
 
             for drone_id in self.swarm.ids():
-                if drone_id not in poses:
+                if drone_id not in poses_takeoff:
                     continue
 
-
-                x_ref, y_ref, z_ref = self.get_next_position(
-                    drone_id=drone_id,
-                    poses=poses,
-                )
-
-                # Move the drone by a small offset
-                self.swarm.go_to_abs(
-                    drone_id=drone_id,
-                    x=x_ref,
-                    y=y_ref,
-                    z=z_ref,
-                )
-
-            time.sleep(5.0)
-
-            obs2 = self.optitrack.snapshot()
-            poses2 = obs2.poses
-            print(f"[DEBUG] Current poses: {poses2}")
-            # Return to the initial flying position
-            for drone_id in self.swarm.ids():
-                if drone_id not in poses2:
-                    continue
-
-                x_ref, y_ref, z_ref = self.get_prev_position(
-                    drone_id=drone_id,
-                    poses=poses2,
-                )
+                p = poses_takeoff[drone_id]
+                initial_targets[drone_id] = (p.x, p.y, p.z)
 
                 self.swarm.go_to_abs(
                     drone_id=drone_id,
-                    x=x_ref,
-                    y=y_ref,
-                    z=z_ref,
+                    x=p.x + self.G[0],
+                    y=p.y + self.G[1],
+                    z=p.z + self.G[2],
                 )
 
-            time.sleep(5.0)
+            time.sleep(6.0)
+
+            for drone_id, target in initial_targets.items():
+                x0, y0, z0 = target
+
+                self.swarm.go_to_abs(
+                    drone_id=drone_id,
+                    x=x0,
+                    y=y0,
+                    z=z0,
+                )
+            
+            time.sleep(6.0)
 
         finally:
             if do_land:
@@ -133,10 +126,10 @@ def main():
     try:
         ctx.start()
 
-        drone_ids = ["cf2"]
+        drone_ids = ["cf6"]
 
         mocap_pose_topics = {
-            "cf2": "/optitrack/cf2/pose"
+            "cf6": "/optitrack/cf6/pose"
         }
 
         optitrack_config = OptiTrackConfig(
@@ -157,8 +150,8 @@ def main():
             optitrack_config=optitrack_config,
             swarm_config=swarm_config,
             G_x=0.0,
-            G_y=0.2,
-            G_z=0.2,
+            G_y=0.15,
+            G_z=0.0,
         )
 
         controller.run(

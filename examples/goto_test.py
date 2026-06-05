@@ -50,10 +50,10 @@ class GotoTest:
     def run(self, do_takeoff=True, do_land=True):
 
         self.swarm.reset_estimator_all(timeout_sec=5.0)
-        time.sleep(3.0)
+        time.sleep(4.0)
         if do_takeoff:
             self.swarm.takeoff_all(timeout_sec=2.0)
-            time.sleep(3.0)
+            time.sleep(5.0)
 
 
 
@@ -125,8 +125,8 @@ def main():
             optitrack_config=optitrack_config,
             swarm_config=swarm_config,
             G_x=0.0,
-            G_y=0.1,
-            G_z=0.1,
+            G_y=0.15,
+            G_z=0.0,
         )
 
         controller.run(
