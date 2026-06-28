@@ -4,7 +4,12 @@
 A modular framework for controlling **Crazyflie swarms** using a **ROS 2 backend** and a clean **Python SDK**.
 
 OptiSwarmCF is designed for motion-capture-based robotics experiments where one or more Crazyflie drones are controlled through a layered architecture. The backend handles hardware communication, tracking integration, estimator updates, command execution, and diagnostics. The SDK provides a simpler Python interface for writing control loops and multi-agent experiments.
-https://github.com/user-attachments/assets/a7129c12-d432-43e4-aef6-7861dd379355
+
+
+<p align="center">
+  <video src="[https://github.com/user/repo/assets/123456/demo.mp4](https://github.com/user-attachments/assets/a7129c12-d432-43e4-aef6-7861dd379355)" controls width="700"></video>
+</p>
+
 > **Status**  
 > OptiSwarmCF is an experimental research framework. The current architecture is usable as a baseline for real tests, but higher-level tools such as a complete SDK orchestrator, backend CLI, and formal command-state machine are still under development.
 
