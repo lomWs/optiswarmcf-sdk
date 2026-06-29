@@ -29,4 +29,3 @@ drones:
     ns: "/cf6"
     mocap_topic: "/optitrack/cf6/pose" 
 
-

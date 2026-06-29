@@ -66,7 +66,7 @@ class GotoComebackTest:
 
         if do_takeoff:
             self.swarm.takeoff_all(timeout_sec=2.0)
-            time.sleep(10.0)
+            time.sleep(20.0)
         
 
         print("[DEBUG] TAKEOFF COMPLETE...:")

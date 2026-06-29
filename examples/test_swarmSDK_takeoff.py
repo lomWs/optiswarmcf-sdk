@@ -12,7 +12,7 @@ from optiswarmcf import (
 )
 
 
-DRONE_IDS = ("cf3", "cf6")
+DRONE_IDS = ("cf6")
 
 
 def get_xyz(mocap: OptiTrack, drone_id: str):
